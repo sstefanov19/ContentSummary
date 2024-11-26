@@ -1,4 +1,3 @@
-import React from 'react'
 
 export default function Testemonials({name , image , review} : {name : string , image: string , review : string}) {
   return (

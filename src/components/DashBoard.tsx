@@ -1,4 +1,3 @@
-import React from 'react'
 import Testemonials from './Testemonials'
 import logo from '../../public/png-transparent-computer-icons-person-random-icons-miscellaneous-image-file-formats-text.png'
 import ProductExplain from './ProductExplain'
