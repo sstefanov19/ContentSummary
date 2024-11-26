@@ -1,4 +1,5 @@
 import Testemonials from './Testemonials'
+import { Link } from 'react-router-dom'
 import logo from '../../public/png-transparent-computer-icons-person-random-icons-miscellaneous-image-file-formats-text.png'
 import ProductExplain from './ProductExplain'
 
@@ -8,9 +9,9 @@ export default function Introduction() {
         <div className='mt-32 flex flex-col items-center h-[300px]'>
             <h1 className='text-zinc-200 font-bold' > Are You Tired of Wasting Time on Lengthy Texts?</h1>
             <p className='text-zinc-100 text-center font-semibold'>Let us simplify the text for you using AI powered model!</p>
-        <button className='mt-4 border-solid border-2 text-zinc-200 rounded-lg w-[100px] '>
+        <Link className='mt-4 border-solid border-2 text-zinc-200 rounded-lg w-[100px]' to="/transcript" >
             Start using
-        </button>
+        </Link>
         </div>
             {/* Section of showing the product */}
 
