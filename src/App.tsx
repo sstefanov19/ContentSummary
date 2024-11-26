@@ -1,20 +1,22 @@
-import Header from "./components/Header"
-import DashBoard from "./components/DashBoard"
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from "./components/Header";
+import DashBoard from "./components/DashBoard";
+import Transcript from "./components/Transcription";
 
 function App() {
-
-
   return (
-    <>
-    <div className="flex flex-col bg-[#2D2D2D] min-h-screen w-screen">
+    <Router>
+      <div className="flex flex-col bg-[#2D2D2D] min-h-screen w-screen">
         <div className="flex justify-center">
-    <Header />
+          <Header />
         </div>
-    <DashBoard />
-    </div>
-    </>
-  )
+        <Routes>
+          <Route path="/" element={<DashBoard />} />
+          <Route path="/transcript" element={<Transcript />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
