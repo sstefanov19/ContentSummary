@@ -1,15 +1,17 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 import whisper
 from transformers import pipeline
 import os
+from magbun import Magnum
 
 app = FastAPI()
 
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://voice-text-ten.vercel.app/transcript"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,10 +33,12 @@ async def transcribe_and_summarize(file: UploadFile = File(...)):
     transcription_text = transcription_result["text"]
 
     # Summarize the transcribed text
-    summary_result = summarizer(transcription_text, max_length=100, min_length=25, do_sample=False)
+    summary_result = summarizer(transcription_text, max_length=300, min_length=25, do_sample=False)
     summary_text = summary_result[0]["summary_text"]
 
     # Clean up the file
     os.remove(file_location)
 
-    return {"transcription": transcription_text, "summary": summary_text}
+    return JSONResponse({"transcription": transcription_text, "summary": summary_text})
+
+handler = Magnum(app)
