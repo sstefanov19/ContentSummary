@@ -1,9 +1,15 @@
+import video from '../../public/product video.mov'
+
 
 export default function ProductExplain() {
   return (
-    <>
-   <h2 className='font-bold'>Learn how to use the model!</h2>
-    <img src='' alt='Video of using the product' className='h-[200px] w-[400px]' />
-    </>
+    <div className='mb-8'>
+        <h1 className='text-center text-2xl font-bold mt-10'>Video showing how to use the product</h1>
+   <video className='h-[800px] w-[1000px]' controls>
+        <source src={video}>
+
+        </source>
+    </video>
+    </div>
 )
 }
