@@ -11,7 +11,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://voice-text-ten.vercel.app/transcript"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -21,24 +21,27 @@ app.add_middleware(
 whisper_model = whisper.load_model("base")
 summarizer = pipeline("summarization", model="t5-small", tokenizer="t5-small")
 
+
 @app.post("/transcribe_and_summarize")
 async def transcribe_and_summarize(file: UploadFile = File(...)):
-    # Save the uploaded file to disk
     file_location = f"./{file.filename}"
-    with open(file_location, "wb") as f:
-        f.write(await file.read())
+    try:
+        with open(file_location, "wb") as f:
+            f.write(await file.read())
 
-    # Transcribe the audio/video file
-    transcription_result = whisper_model.transcribe(file_location)
-    transcription_text = transcription_result["text"]
+        # Transcribe the audio/video file
+        transcription_result = whisper_model.transcribe(file_location)
+        transcription_text = transcription_result["text"]
 
-    # Summarize the transcribed text
-    summary_result = summarizer(transcription_text, max_length=300, min_length=25, do_sample=False)
-    summary_text = summary_result[0]["summary_text"]
+        # Summarize the transcribed text
+        summary_result = summarizer(transcription_text, max_length=100, min_length=25, do_sample=False)
+        summary_text = summary_result[0]["summary_text"]
 
-    # Clean up the file
-    os.remove(file_location)
+        return {"transcription": transcription_text, "summary": summary_text}
 
-    return JSONResponse({"transcription": transcription_text, "summary": summary_text})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
-handler = Magnum(app)
+    finally:
+        if os.path.exists(file_location):
+            os.remove(file_location)
