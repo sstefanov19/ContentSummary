@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 import whisper
 from transformers import pipeline
 import os
-from magbun import Magnum
+
 
 app = FastAPI()
 
